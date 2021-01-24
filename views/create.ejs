@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Добавление пользователя</title>
+    <meta charset="utf-8" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
+    />
+</head>
+<body>
+<h1 style="text-align: center; margin-top: 70px">Добавление игрока</h1>
+<form method="POST" style="text-align: center">
+    <label>Имя</label>
+    <input name="first_name" class="field"/>
+    <label>Фамилия</label>
+    <input name="second_name" /><br>
+    <label>Рейтинг</label>
+    <input name="ranking_code" /><br>
+    <label>Телефон</label>
+    <input name="phone_number" /><br>
+    <label>Email</label>
+    <input name="email_adress" /><br>
+    <input type="submit" value="Отправить" style="border-radius: 30px; color: blue"/>
+</form>
+<a href="/users/dashboard" style="text-decoration: none; color: blue"><button style="text-align: center;color: blue">К списку пользователей</button></a>
+</body>
+</html>

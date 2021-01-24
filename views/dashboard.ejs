@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <style type="text/css">
+        .tabs {
+            width: 100%;
+            padding: 0px;
+            margin: 0 auto;
+        }
+
+        .tabs > input {
+            display: none;
+        }
+
+        .tabs > div {
+            display: none;
+            padding: 12px;
+            border: 1px solid #C0C0C0;
+            background: #FFFFFF;
+        }
+
+        .tabs > label {
+            display: inline-block;
+            padding: 7px;
+            margin: 0 -5px -1px 0;
+            text-align: center;
+            color: #666666;
+            border: 1px solid #C0C0C0;
+            background: #E0E0E0;
+            cursor: pointer;
+        }
+
+        .tabs > input:checked + label {
+            color: #000000;
+            border: 1px solid #C0C0C0;
+            border-bottom: 1px solid #FFFFFF;
+            background: #FFFFFF;
+        }
+
+        #tab_1:checked ~ #txt_1,
+        #tab_2:checked ~ #txt_2,
+        #tab_3:checked ~ #txt_3,
+        #tab_4:checked ~ #txt_4,
+        #tab_5:checked ~ #txt_5,
+        #tab_6:checked ~ #txt_6,
+        #tab_7:checked ~ #txt_7,
+        #tab_8:checked ~ #txt_8,
+        #tab_9:checked ~ #txt_9{
+            display: block;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #dddddd;
+            border-collapse: collapse
+        }
+
+        .table th {
+            font-weight: bold;
+            padding: 5px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+
+        .table td {
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
+
+        th {
+            text-align: center
+        }
+
+        td {
+            text-align: center
+        }
+
+        a {
+            text-decoration: none
+        }
+    </style>
+    <title>Dashboard</title>
+</head>
+<body style="text-align: center">
+<h1>Database Chess Tournaments</h1>
+<div>
+    <a href="/users/logout">
+        <button style="border-radius: 30px; color: red">Выйти</button>
+    </a>
+    <% if(role == 'ADMIN') {%>
+    <a href="/users/roles">
+        <button style="border-radius: 30px; margin-left: 10px; color: blue">Выдать роль</button>
+    </a>
+    <%} %>
+</div>
+
+<h4>Hello <%= user %></h4>
+<h5>
+    Role - <%= role %>
+</h5>
+
+<div class="tabs">
+    <input type="radio" name="inset" value="" id="tab_1" checked>
+    <label for="tab_1">Игроки</label>
+
+    <input type="radio" name="inset" value="" id="tab_2">
+    <label for="tab_2">Шахматные клубы</label>
+
+    <input type="radio" name="inset" value="" id="tab_3">
+    <label for="tab_3">Турниры</label>
+
+    <input type="radio" name="inset" value="" id="tab_4">
+    <label for="tab_4">Спонсоры</label>
+
+    <input type="radio" name="inset" value="" id="tab_5">
+    <label for="tab_5">Матчи</label>
+
+    <input type="radio" name="inset" value="" id="tab_6">
+    <label for="tab_6">Рейтинговая система</label>
+
+    <input type="radio" name="inset" value="" id="tab_7">
+    <label for="tab_7">История событий</label>
+
+    <input type="radio" name="inset" value="" id="tab_8">
+    <label for="tab_8">Рейтинг больше 2000</label>
+
+    <input type="radio" name="inset" value="" id="tab_9">
+    <label for="tab_9">Количество игроков</label>
+
+    <div id="txt_1">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Игроки</h1>
+        <a href="/create" style="color: blue"><button style="border-radius: 30px; color: blue">Добавить игрока</button></a>
+        <table class="table" style="margin-top: 10px">
+            <tr>
+                <th>№</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Рейтинг</th>
+                <th>Телефон</th>
+                <th>Email адрес</th>
+                <th></th>
+            </tr>
+            <% players.forEach(function (player){ %>
+                <tr>
+                    <td><%= player.player_id %></td>
+                    <td><%= player.first_name %></td>
+                    <td><%= player.second_name %></td>
+                    <td><%= player.ranking_code %></td>
+                    <td><%= player.phone_number %></td>
+                    <td><%= player.email_adress %></td>
+                    <% if(role=='ADMIN') {%> <td>
+                        <form action="/users/dashboard/<%= player.player_id %>" method="POST" style="display:inline;">
+                            <input type='submit' value='УДАЛИТЬ' style="color: red"/>
+                        </form>
+                    </td> <%} %>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_2">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Шахматные клубы</h1>
+        <table class="table">
+            <tr>
+                <th>№</th>
+                <th>Название клуба</th>
+                <th>Адрес клуба</th>
+                <th>Информация о клубе</th>
+            </tr>
+            <% clubs.forEach(function (club){ %>
+                <tr>
+                    <td><%= club.club_id %></td>
+                    <td><%= club.club_name %></td>
+                    <td><%= club.club_adress %></td>
+                    <td><%= club.other_club_details %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_3">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Турниры</h1>
+        <table class="table">
+            <tr>
+                <th>№</th>
+                <th>Название турнира</th>
+                <th>Начала турнира</th>
+                <th>Конец турнира</th>
+                <th>Информация о турнире</th>
+            </tr>
+            <% tournaments.forEach(function (tournament){ %>
+                <tr>
+                    <td><%= tournament.tournament_id %></td>
+                    <td><%= tournament.tournament_name %></td>
+                    <td><%= tournament.tournament_start_data %></td>
+                    <td><%= tournament.tournament_end_data %></td>
+                    <td><%= tournament.tournament_details %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_4">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Спонсоры</h1>
+        <table class="table">
+            <tr>
+                <th>№</th>
+                <th>Наименование спонсора</th>
+                <th>Номер телефона</th>
+                <th>Информация о спонсоре</th>
+            </tr>
+            <% sponsors.forEach(function (sponsor){ %>
+                <tr>
+                    <td><%= sponsor.sponsor_id %></td>
+                    <td><%= sponsor.sponsor_name %></td>
+                    <td><%= sponsor.sponsor_phone%></td>
+                    <td><%= sponsor.other_sponsor_detail %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_5">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Матчи</h1>
+        <table class="table">
+            <tr>
+                <th>Номер турнира</th>
+                <th>Игрок 1</th>
+                <th>Игрок 2</th>
+                <th>Стартовое время матча</th>
+                <th>Исход</th>
+                <th>Окончание матча</th>
+            </tr>
+            <% matches.forEach(function (match){ %>
+                <tr>
+                    <td><%= match.tournament_id %></td>
+                    <td><%= match.player_id_1 %></td>
+                    <td><%= match.player_id_2%></td>
+                    <td><%= match.match_start_datetime %></td>
+                    <td><%= match.result_code %></td>
+                    <td><%= match.match_end_time %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_6">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Рейтинговая система</h1>
+        <table class="table">
+            <tr>
+                <th>Рейтинг</th>
+                <th>Звание</th>
+            </tr>
+            <% ref_ranking_codes.forEach(function (rank){ %>
+                <tr>
+                    <td><%= rank.ranking_code %></td>
+                    <td><%= rank.rankind_description %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_7">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">История событий</h1>
+        <h2 style="color: red">Trigger</h2>
+        <table class="table">
+            <tr>
+                <th>№</th>
+                <th>Действие</th>
+            </tr>
+            <% history.forEach(function (histor){ %>
+                <tr>
+                    <td><%= histor.id %></td>
+                    <td><%= histor.action %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_8">
+        <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Рейтинг больше 2000</h1>
+        <h2 style="color: red">View</h2>
+        <table class="table">
+            <tr>
+                <th>№</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Рейтинг</th>
+                <th>Телефон</th>
+                <th>Email адрес</th>
+            </tr>
+            <% ranking.forEach(function (rank){ %>
+                <tr>
+                    <td><%= rank.player_id %></td>
+                    <td><%= rank.first_name %></td>
+                    <td><%= rank.second_name %></td>
+                    <td><%= rank.ranking_code %></td>
+                    <td><%= rank.phone_number %></td>
+                    <td><%= rank.email_adress %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <div id="txt_9">
+        <form action="/users/dashboard/" method="GET" style="display:inline;">
+            <h1 style="align-items: center; margin-top: 10px; font-size: 45px">Количество игроков</h1>
+            <h2 style="color: red">Function</h2>
+            <label>Рейтинг От</label>
+            <input name="len_from" class="field"/>
+            <label>До</label>
+            <input name="len_to" /><br>
+            <input type='submit' value='РЕЗУЛЬТАТ' style="color: red"/>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
